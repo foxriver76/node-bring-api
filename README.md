@@ -7,7 +7,7 @@
 A node module for Bring! shopping lists.
 
 ## Installation
-```npm install bring --production```
+```npm install bring-shopping --production```
 
 ## Usage Example
 
