@@ -1,0 +1,41 @@
+{
+    "name": "bring-shopping",
+    "version": "1.0.0",
+    "description": "Nodejs wrapper for the Bring! API",
+    "author": {
+        "name": "Moritz Heusinger",
+        "email": "moritz.heusinger@gmail.com"
+    },
+    "contributors": [
+        {
+            "name": "Moritz Heusinger",
+            "email": "moritz.heusinger@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/foxriver76/bring-api",
+    "license": "MIT",
+    "keywords": [
+        "bring",
+        "shopping-list"
+    ],
+    "dependencies": {
+        "request": "^2.88.0",
+        "request-promise-native": "^1.0.7"
+    },
+    "devDependencies": {
+        "mocha": "^2.3.4",
+        "chai": "^3.4.1"
+    },
+    "scripts": {
+        "test": "node node_modules/mocha/bin/mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/foxriver76/bring-api.git"
+    },
+    "bugs": {
+        "url": "https://github.com/foxriver76/bring-api/issues"
+    },
+    "main": "lib/bring.js",
+    "readmeFilename": "readme.md"
+}
