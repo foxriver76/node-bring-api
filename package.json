@@ -1,6 +1,6 @@
 {
     "name": "bring-shopping",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Nodejs wrapper for the Bring! API",
     "author": {
         "name": "Moritz Heusinger",
@@ -31,10 +31,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/foxriver76/bring-api.git"
+        "url": "git+https://github.com/foxriver76/node-bring-api.git"
     },
     "bugs": {
-        "url": "https://github.com/foxriver76/bring-api/issues"
+        "url": "https://github.com/foxriver76/node-bring-api/issues"
     },
     "main": "lib/bring.js",
     "readmeFilename": "readme.md"
