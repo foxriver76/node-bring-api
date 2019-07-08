@@ -29,6 +29,9 @@ More important methods are `getItems(listUUID)`, `saveItem(listUuid, itemName, s
 
 ## Changelog
 
+### 1.0.2
+* (foxriver76) minor code optimization, nothing functional
+
 ### 1.0.1
 * (foxriver76) fix links in package
 
