@@ -39,6 +39,9 @@ More important methods are `getItems(listUUID)`, `saveItem(listUuid, itemName, s
 
 ## Changelog
 
+### 1.2.1
+* (foxriver76) minor fix
+
 ### 1.2.0
 * (foxriver76) new functionalities -> getTranslations, getCatalog and getPendingInvitations
 

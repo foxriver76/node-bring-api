@@ -1,6 +1,6 @@
 {
     "name": "bring-shopping",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Nodejs wrapper for the Bring! API",
     "author": {
         "name": "Moritz Heusinger",
