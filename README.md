@@ -12,12 +12,12 @@ A node module for Bring! shopping lists.
 ## Usage Example
 
 ```javascript
-const bringaApi = require(`bring-shopping`);
+const bringApi = require(`bring-shopping`);
 
-// alternative you can use uuid as attribute, thus you wont need to login
+// provide user and email to login
 const bring = new bringApi({mail: `example@example.com`, password: `secret`});
 
-// login to get your uuid
+// login to get your uuid and Bearer token
 await bring.login();
 
 // get all lists and their listUuid
@@ -28,6 +28,9 @@ More important methods are `getItems(listUUID)`, `saveItem(listUuid, itemName, s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+
+### 1.1.0
+* (foxriver76) use API version v2
 
 ### 1.0.2
 * (foxriver76) minor code optimization, nothing functional
