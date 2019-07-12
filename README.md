@@ -39,6 +39,9 @@ More important methods are `getItems(listUUID)`, `saveItem(listUuid, itemName, s
 
 ## Changelog
 
+### 1.2.2
+* (foxriver76) More information on rejection of getItems
+
 ### 1.2.1
 * (foxriver76) minor fix
 
