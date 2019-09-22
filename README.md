@@ -14,7 +14,7 @@ A node module for Bring! shopping lists.
 ```javascript
 const bringApi = require(`bring-shopping`);
 
-main()
+main();
 
 async function main () {
     // provide user and email to login
@@ -38,6 +38,8 @@ More important methods are `getItems(listUUID)`, `saveItem(listUuid, itemName, s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+### 1.2.3 (2019-09-22)
+* (foxriver76) on new call of login overwrite bearer header to allow reauth
 
 ### 1.2.2
 * (foxriver76) More information on rejection of getItems
