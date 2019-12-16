@@ -1,8 +1,7 @@
 # Node-Bring-Shopping
 [![NPM version](http://img.shields.io/npm/v/bring-shopping.svg)](https://www.npmjs.com/package/bring-shopping)
 [![Downloads](https://img.shields.io/npm/dm/bring-shopping.svg)](https://www.npmjs.com/package/bring-shopping)
-[![Build Status](https://travis-ci.org/foxriver76/node-bring-api.svg?branch=master)](https://travis-ci.org/foxriver76/node-bring-api) [![Greenkeeper badge](https://badges.greenkeeper.io/foxriver76/node-bring-api.svg)](https://greenkeeper.io/)
-
+![Build Status](https://github.com/foxriver76/node-bring-api/workflows/Test%20and%20Release/badge.svg)
 
 A node module for Bring! shopping lists.
 
