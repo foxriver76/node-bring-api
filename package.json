@@ -1,6 +1,6 @@
 {
     "name": "bring-shopping",
-    "version": "1.2.3",
+    "version": "1.3.0",
     "description": "Nodejs wrapper for the Bring! API",
     "author": {
         "name": "Moritz Heusinger",
@@ -19,11 +19,11 @@
         "shopping-list"
     ],
     "dependencies": {
-        "request": "^2.88.0",
-        "request-promise-native": "^1.0.7"
+        "request": "^2.88.2",
+        "request-promise-native": "^1.0.9"
     },
     "devDependencies": {
-        "mocha": "^6.0.2",
+        "mocha": "^8.1.3",
         "chai": "^4.2.0"
     },
     "scripts": {

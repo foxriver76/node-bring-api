@@ -20,7 +20,11 @@ async function main () {
     const bring = new bringApi({mail: `example@example.com`, password: `secret`});
     
     // login to get your uuid and Bearer token
-    await bring.login();
+    try {
+        await bring.login();
+    } catch (e) {
+        console.error(`Error on Login: ${e.message}`);
+    }   
     
     // get all lists and their listUuid
     const lists = await bring.loadLists();
@@ -33,10 +37,14 @@ async function main () {
 } 
 ```
 
-More important methods are `getItems(listUUID)`, `saveItem(listUuid, itemName, specificaiton)`, 
+More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `saveItem(listUuid, itemName, specificaiton)`, 
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+### 1.3.0 (2020-10-05)
+* (mdhom) added getItemsDetails method
+* (foxriver76) now reject with real errors instead of strings
+
 ### 1.2.3 (2019-09-22)
 * (foxriver76) on new call of login overwrite bearer header to allow reauth
 

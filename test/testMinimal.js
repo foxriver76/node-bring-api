@@ -1,5 +1,5 @@
 const bringApi = require(__dirname + `/../lib/bring.js`);
-const describe = require(`mocha`).describe;
+const { describe } = require(`mocha`);
 
 describe(`Wrong login test`, () => {
     let bring;
@@ -13,7 +13,9 @@ describe(`Wrong login test`, () => {
         try {
             await bring.login();
         } catch (e) {
-            if (e.includes(`email password combination not existing`)) return Promise.resolve();
+            if (e.message.includes(`email password combination not existing`)) {
+                return Promise.resolve();
+            }
         }
     });
 });
