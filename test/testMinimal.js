@@ -13,8 +13,8 @@ describe(`Wrong login test`, () => {
         try {
             await bring.login();
         } catch (e) {
-            if (e.message.includes(`email password combination not existing`)) {
-                return Promise.resolve();
+            if (!e.message.includes(`email password combination not existing`)) {
+                throw new Error(`Wrong rejection message on login: ${e.message}`);
             }
         }
     });
