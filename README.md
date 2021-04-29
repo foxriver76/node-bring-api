@@ -41,6 +41,9 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+### 1.3.1 (2021-04-29)
+* (foxriver76) fixed issue where error was used instead of the mssage on `getPendingInvitations`
+
 ### 1.3.0 (2020-10-05)
 * (mdhom) added getItemsDetails method
 * (foxriver76) now reject with real errors instead of strings
