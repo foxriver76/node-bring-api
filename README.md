@@ -5,6 +5,10 @@
 
 A node module for Bring! shopping lists.
 
+## Disclaimer
+The developers of this module are in no way endorsed by or affiliated with
+Bring! Labs AG, or any associated subsidiaries, logos or trademarks.
+
 ## Installation
 ```npm install bring-shopping --production```
 
