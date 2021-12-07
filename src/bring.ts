@@ -98,7 +98,7 @@ class Bring {
     private readonly url: string;
     private uuid: string;
     private readonly headers: { "X-BRING-CLIENT-SOURCE": string; "X-BRING-COUNTRY": string; "X-BRING-CLIENT": string; "X-BRING-API-KEY": string, Authorization?: string, "X-BRING-USER-UUID"?: string };
-    private name?: string;
+    public name?: string;
     private bearerToken?: string;
     private refreshToken?: string;
     private putHeaders?: { Authorization?: string; "X-BRING-USER-UUID"?: string; "X-BRING-CLIENT-SOURCE": string; "X-BRING-COUNTRY": string; "X-BRING-CLIENT": string; "X-BRING-API-KEY": string; "Content-Type": string };

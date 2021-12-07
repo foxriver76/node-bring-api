@@ -26,6 +26,7 @@ async function main () {
     // login to get your uuid and Bearer token
     try {
         await bring.login();
+        console.log(`Successfully logged in as ${bring.name}`);
     } catch (e) {
         console.error(`Error on Login: ${e.message}`);
     }   
@@ -45,7 +46,7 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
-### 1.4.1 (2021-08-12)
+### 1.4.2 (2021-08-12)
 * (foxriver76) restructure to typescript
 
 ### 1.3.1 (2021-04-29)

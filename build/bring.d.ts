@@ -80,7 +80,7 @@ declare class Bring {
     private readonly url;
     private uuid;
     private readonly headers;
-    private name?;
+    name?: string;
     private bearerToken?;
     private refreshToken?;
     private putHeaders?;
