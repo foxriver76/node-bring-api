@@ -1,6 +1,6 @@
 'use strict';
 
-const request = require(`request-promise-native`);
+import request from "request-promise-native";
 
 interface BringOptions {
     mail: string,

@@ -1,5 +1,8 @@
 'use strict';
-const request = require(`request-promise-native`);
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+const request_promise_native_1 = __importDefault(require("request-promise-native"));
 class Bring {
     constructor(options) {
         this.mail = options.mail;
@@ -19,7 +22,7 @@ class Bring {
     async login() {
         let data;
         try {
-            data = await request.post(`${this.url}bringauth`, {
+            data = await request_promise_native_1.default.post(`${this.url}bringauth`, {
                 form: {
                     email: this.mail,
                     password: this.password
@@ -43,7 +46,7 @@ class Bring {
      */
     async loadLists() {
         try {
-            const data = await request(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
+            const data = await (0, request_promise_native_1.default)(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
             return JSON.parse(data);
         }
         catch (e) {
@@ -55,7 +58,7 @@ class Bring {
      */
     async getItems(listUuid) {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
+            const data = await (0, request_promise_native_1.default)(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
             return JSON.parse(data);
         }
         catch (e) {
@@ -67,7 +70,7 @@ class Bring {
      */
     async getItemsDetails(listUuid) {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
+            const data = await (0, request_promise_native_1.default)(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
             return JSON.parse(data);
         }
         catch (e) {
@@ -84,7 +87,7 @@ class Bring {
      */
     async saveItem(listUuid, itemName, specification) {
         try {
-            const data = await request.put(`${this.url}bringlists/${listUuid}`, {
+            const data = await request_promise_native_1.default.put(`${this.url}bringlists/${listUuid}`, {
                 headers: this.putHeaders,
                 body: `&purchase=${itemName}&recently=&specification=${specification}&remove=&sender=null`
             });
@@ -103,7 +106,7 @@ class Bring {
      */
     async removeItem(listUuid, itemName) {
         try {
-            const data = await request.put(`${this.url}bringlists/${listUuid}`, {
+            const data = await request_promise_native_1.default.put(`${this.url}bringlists/${listUuid}`, {
                 headers: this.putHeaders,
                 body: `&purchase=&recently=&specification=&remove=${itemName}&sender=null`
             });
@@ -122,7 +125,7 @@ class Bring {
      */
     async moveToRecentList(listUuid, itemName) {
         try {
-            const data = await request.put(`${this.url}bringlists/${listUuid}`, {
+            const data = await request_promise_native_1.default.put(`${this.url}bringlists/${listUuid}`, {
                 headers: this.putHeaders,
                 body: `&purchase=&recently=${itemName}&specification=&remove=&&sender=null`
             });
@@ -139,7 +142,7 @@ class Bring {
      */
     async getAllUsersFromList(listUuid) {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
+            const data = await (0, request_promise_native_1.default)(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
             return JSON.parse(data);
         }
         catch (e) {
@@ -151,7 +154,7 @@ class Bring {
      */
     async getUserSettings() {
         try {
-            const data = await request(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
+            const data = await (0, request_promise_native_1.default)(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
             return JSON.parse(data);
         }
         catch (e) {
@@ -164,7 +167,7 @@ class Bring {
      */
     async loadTranslations(locale) {
         try {
-            const data = await request(`https://web.getbring.com/locale/articles.${locale}.json`);
+            const data = await (0, request_promise_native_1.default)(`https://web.getbring.com/locale/articles.${locale}.json`);
             return JSON.parse(data);
         }
         catch (e) {
@@ -177,7 +180,7 @@ class Bring {
      */
     async loadCatalog(locale) {
         try {
-            const data = await request(`https://web.getbring.com/locale/catalog.${locale}.json`);
+            const data = await (0, request_promise_native_1.default)(`https://web.getbring.com/locale/catalog.${locale}.json`);
             return JSON.parse(data);
         }
         catch (e) {
@@ -189,7 +192,7 @@ class Bring {
      */
     async getPendingInvitations() {
         try {
-            const data = await request(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, { headers: this.headers });
+            const data = await (0, request_promise_native_1.default)(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, { headers: this.headers });
             return JSON.parse(data);
         }
         catch (e) {
