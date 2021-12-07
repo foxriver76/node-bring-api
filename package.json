@@ -1,43 +1,51 @@
 {
-    "name": "bring-shopping",
-    "version": "1.3.1",
-    "engines": {
-        "node": ">=8.0.0"
-    },
-    "description": "Nodejs wrapper for the Bring! API",
-    "author": {
-        "name": "Moritz Heusinger",
-        "email": "moritz.heusinger@gmail.com"
-    },
-    "contributors": [
-        {
-            "name": "Moritz Heusinger",
-            "email": "moritz.heusinger@gmail.com"
-        }
-    ],
-    "homepage": "https://github.com/foxriver76/bring-api",
-    "license": "MIT",
-    "keywords": [
-        "bring",
-        "shopping-list"
-    ],
-    "dependencies": {
-        "request": "^2.88.2",
-        "request-promise-native": "^1.0.9"
-    },
-    "devDependencies": {
-        "chai": "^4.3.4",
-        "mocha": "^8.4.0"
-    },
-    "scripts": {
-        "test": "node node_modules/mocha/bin/mocha"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/foxriver76/node-bring-api.git"
-    },
-    "bugs": {
-        "url": "https://github.com/foxriver76/node-bring-api/issues"
-    },
-    "main": "lib/bring.js"
+  "name": "bring-shopping",
+  "version": "1.4.0",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "description": "Nodejs wrapper for the Bring! API",
+  "author": {
+    "name": "Moritz Heusinger",
+    "email": "moritz.heusinger@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Moritz Heusinger",
+      "email": "moritz.heusinger@gmail.com"
+    }
+  ],
+  "homepage": "https://github.com/foxriver76/bring-api",
+  "license": "MIT",
+  "keywords": [
+    "bring",
+    "shopping-list"
+  ],
+  "dependencies": {
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.12",
+    "@types/request-promise-native": "^1.0.18",
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0",
+    "typescript": "^4.5.2"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha",
+    "build": "tsc -b tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foxriver76/node-bring-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/foxriver76/node-bring-api/issues"
+  },
+  "files": [
+    "build/",
+    "LICENSE"
+  ],
+  "main": "build/bring.js"
 }

@@ -45,6 +45,9 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+### 1.4.0 (2021-08-12)
+* (foxriver76) restructure to typescript
+
 ### 1.3.1 (2021-04-29)
 * (foxriver76) fixed issue where error was used instead of the mssage on `getPendingInvitations`
 

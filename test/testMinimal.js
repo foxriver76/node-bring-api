@@ -1,4 +1,4 @@
-const bringApi = require(__dirname + `/../lib/bring.js`);
+const bringApi = require(`${__dirname}/../build/bring.js`);
 const { describe } = require(`mocha`);
 
 describe(`Wrong login test`, () => {

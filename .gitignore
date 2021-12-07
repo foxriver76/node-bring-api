@@ -81,3 +81,5 @@ typings/
 *.iml
 out
 gen
+
+*.tsbuildinfo
