@@ -1,6 +1,6 @@
 {
   "name": "bring-shopping",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "engines": {
     "node": ">=8.0.0"
   },
@@ -47,5 +47,6 @@
     "build/",
     "LICENSE"
   ],
-  "main": "build/bring.js"
+  "main": "build/bring.js",
+  "types": "build/bring.d.ts"
 }

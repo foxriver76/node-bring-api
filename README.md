@@ -3,7 +3,7 @@
 [![Downloads](https://img.shields.io/npm/dm/bring-shopping.svg)](https://www.npmjs.com/package/bring-shopping)
 ![Build Status](https://github.com/foxriver76/node-bring-api/workflows/Test%20and%20Release/badge.svg)
 
-A node module for Bring! shopping lists.
+A node module for Bring! shopping lists entirely written in TypeScript.
 
 ## Disclaimer
 The developers of this module are in no way endorsed by or affiliated with
@@ -45,7 +45,7 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
-### 1.4.0 (2021-08-12)
+### 1.4.1 (2021-08-12)
 * (foxriver76) restructure to typescript
 
 ### 1.3.1 (2021-04-29)
