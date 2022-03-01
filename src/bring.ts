@@ -1,95 +1,95 @@
 'use strict';
 
-import request from "request-promise-native";
+import request from 'request-promise-native';
 
 interface BringOptions {
-    mail: string,
-    password: string,
-    url?: string,
-    uuid?: string
+    mail: string;
+    password: string;
+    url?: string;
+    uuid?: string;
 }
 
 interface GetItemsResponseEntry {
-    specification: string,
-    name: string
+    specification: string;
+    name: string;
 }
 
 interface GetItemsResponse {
-    uuid: string,
-    status: string,
-    purchase: GetItemsResponseEntry[],
-    rececently: GetItemsResponseEntry[]
+    uuid: string;
+    status: string;
+    purchase: GetItemsResponseEntry[];
+    rececently: GetItemsResponseEntry[];
 }
 
 interface GetAllUsersFromListEntry {
-    publicUuid: string,
-    name: string,
-    email: string,
-    photoPath: string,
-    pushEnabled: boolean,
-    plusTryOut: boolean,
-    country: string,
-    language: string
+    publicUuid: string;
+    name: string;
+    email: string;
+    photoPath: string;
+    pushEnabled: boolean;
+    plusTryOut: boolean;
+    country: string;
+    language: string;
 }
 interface GetAllUsersFromListResponse {
-    users: GetAllUsersFromListEntry[]
+    users: GetAllUsersFromListEntry[];
 }
 
 interface LoadListsEntry {
-    listUuid: string,
-    name: string,
-    theme: string
+    listUuid: string;
+    name: string;
+    theme: string;
 }
 
 interface LoadListsFresponse {
-    lists: LoadListsEntry[]
+    lists: LoadListsEntry[];
 }
 
 interface GetItemsDetailsEntry {
-    uuid: string,
-    itemId: string,
-    listUuid: string,
-    userIconItemId: string,
-    userSectionId: string,
-    assignedTo: string,
-    imageUrl: string
+    uuid: string;
+    itemId: string;
+    listUuid: string;
+    userIconItemId: string;
+    userSectionId: string;
+    assignedTo: string;
+    imageUrl: string;
 }
 
 interface UserSettingsEntry {
-    key: string,
-    value: string
+    key: string;
+    value: string;
 }
 
 interface UserListSettingsEntry {
-    listUuid: string,
-    usersettings: UserSettingsEntry[]
+    listUuid: string;
+    usersettings: UserSettingsEntry[];
 }
 
 interface GetUserSettingsResponse {
-    userSettings: UserSettingsEntry[],
-    userlistsettings: UserListSettingsEntry[]
+    userSettings: UserSettingsEntry[];
+    userlistsettings: UserListSettingsEntry[];
 }
 
 interface CatalogItemsEntry {
-    itemId: string,
-    name: string
+    itemId: string;
+    name: string;
 }
 
 interface CatalogSectionsEntry {
-    sectionId: string,
-    name: string,
-    items: CatalogItemsEntry[]
+    sectionId: string;
+    name: string;
+    items: CatalogItemsEntry[];
 }
 
 interface LoadCatalogResponse {
-    language: string,
+    language: string;
     catalog: {
-        sections: CatalogSectionsEntry[]
-    }
+        sections: CatalogSectionsEntry[];
+    };
 }
 
 interface GetPendingInvitationsResponse {
-    invitations: any[]
+    invitations: any[];
 }
 
 class Bring {
@@ -97,13 +97,28 @@ class Bring {
     private readonly password: string;
     private readonly url: string;
     private uuid: string;
-    private readonly headers: { "X-BRING-CLIENT-SOURCE": string; "X-BRING-COUNTRY": string; "X-BRING-CLIENT": string; "X-BRING-API-KEY": string, Authorization?: string, "X-BRING-USER-UUID"?: string };
+    private readonly headers: {
+        'X-BRING-CLIENT-SOURCE': string;
+        'X-BRING-COUNTRY': string;
+        'X-BRING-CLIENT': string;
+        'X-BRING-API-KEY': string;
+        Authorization?: string;
+        'X-BRING-USER-UUID'?: string;
+    };
     public name?: string;
     private bearerToken?: string;
     private refreshToken?: string;
-    private putHeaders?: { Authorization?: string; "X-BRING-USER-UUID"?: string; "X-BRING-CLIENT-SOURCE": string; "X-BRING-COUNTRY": string; "X-BRING-CLIENT": string; "X-BRING-API-KEY": string; "Content-Type": string };
+    private putHeaders?: {
+        Authorization?: string;
+        'X-BRING-USER-UUID'?: string;
+        'X-BRING-CLIENT-SOURCE': string;
+        'X-BRING-COUNTRY': string;
+        'X-BRING-CLIENT': string;
+        'X-BRING-API-KEY': string;
+        'Content-Type': string;
+    };
 
-    constructor(options:BringOptions) {
+    constructor(options: BringOptions) {
         this.mail = options.mail;
         this.password = options.password;
         this.url = options.url || `https://api.getbring.com/rest/v2/`;
@@ -122,13 +137,12 @@ class Bring {
     async login(): Promise<void> {
         let data;
         try {
-            data = await request.post(`${this.url}bringauth`,
-                {
-                    form: {
-                        email: this.mail,
-                        password: this.password
-                    }
-                });
+            data = await request.post(`${this.url}bringauth`, {
+                form: {
+                    email: this.mail,
+                    password: this.password
+                }
+            });
         } catch (e: any) {
             throw new Error(`Cannot Login: ${e.message}`);
         } // endCatch
@@ -141,7 +155,10 @@ class Bring {
 
         this.headers[`X-BRING-USER-UUID`] = this.uuid;
         this.headers[`Authorization`] = `Bearer ${this.bearerToken}`;
-        this.putHeaders = {...this.headers, ...{'Content-Type': `application/x-www-form-urlencoded; charset=UTF-8`}};
+        this.putHeaders = {
+            ...this.headers,
+            ...{ 'Content-Type': `application/x-www-form-urlencoded; charset=UTF-8` }
+        };
     } // endLogin
 
     /**
@@ -149,8 +166,8 @@ class Bring {
      */
     async loadLists(): Promise<LoadListsFresponse> {
         try {
-            const data = await request(`${this.url}bringusers/${this.uuid}/lists`, {headers: this.headers});
-            return  JSON.parse(data);
+            const data = await request(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
+            return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get lists: ${e.message}`);
         } // endCatch
@@ -159,9 +176,9 @@ class Bring {
     /**
      *   Get all items from the current selected shopping list
      */
-    async getItems(listUuid:string): Promise<GetItemsResponse> {
+    async getItems(listUuid: string): Promise<GetItemsResponse> {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}`, {headers: this.headers});
+            const data = await request(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get items for list ${listUuid}: ${e.message}`);
@@ -173,7 +190,7 @@ class Bring {
      */
     async getItemsDetails(listUuid: string): Promise<GetItemsDetailsEntry[]> {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}/details`, {headers: this.headers});
+            const data = await request(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get detailed items for list ${listUuid}: ${e.message}`);
@@ -188,7 +205,7 @@ class Bring {
      *   @param listUuid The listUUID you want to receive a list of users from.
      *   returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
-    async saveItem(listUuid:string, itemName:string, specification:string): Promise<string> {
+    async saveItem(listUuid: string, itemName: string, specification: string): Promise<string> {
         try {
             const data = await request.put(`${this.url}bringlists/${listUuid}`, {
                 headers: this.putHeaders,
@@ -207,7 +224,7 @@ class Bring {
      *   @param listUuid The lisUUID you want to receive a list of users from.
      *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
-    async removeItem(listUuid:string, itemName:string): Promise<string> {
+    async removeItem(listUuid: string, itemName: string): Promise<string> {
         try {
             const data = await request.put(`${this.url}bringlists/${listUuid}`, {
                 headers: this.putHeaders,
@@ -226,7 +243,7 @@ class Bring {
      *   @param listUuid The lisUUID you want to receive a list of users from.
      *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
-    async moveToRecentList(listUuid:string, itemName:string): Promise<string> {
+    async moveToRecentList(listUuid: string, itemName: string): Promise<string> {
         try {
             const data = await request.put(`${this.url}bringlists/${listUuid}`, {
                 headers: this.putHeaders,
@@ -245,7 +262,7 @@ class Bring {
      */
     async getAllUsersFromList(listUuid: string): Promise<GetAllUsersFromListResponse> {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}/users`, {headers: this.headers});
+            const data = await request(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get users from list: ${e.message}`);
@@ -257,7 +274,7 @@ class Bring {
      */
     async getUserSettings(): Promise<GetUserSettingsResponse> {
         try {
-            const data = await request(`${this.url}bringusersettings/${this.uuid}`, {headers: this.headers});
+            const data = await request(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get user settings: ${e.message}`);
@@ -295,7 +312,9 @@ class Bring {
      */
     async getPendingInvitations(): Promise<GetPendingInvitationsResponse> {
         try {
-            const data = await request(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {headers: this.headers});
+            const data = await request(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {
+                headers: this.headers
+            });
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get pending invitations: ${e.message}`);

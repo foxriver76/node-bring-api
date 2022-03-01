@@ -39,7 +39,10 @@ class Bring {
         this.refreshToken = data.refresh_token;
         this.headers[`X-BRING-USER-UUID`] = this.uuid;
         this.headers[`Authorization`] = `Bearer ${this.bearerToken}`;
-        this.putHeaders = { ...this.headers, ...{ 'Content-Type': `application/x-www-form-urlencoded; charset=UTF-8` } };
+        this.putHeaders = {
+            ...this.headers,
+            ...{ 'Content-Type': `application/x-www-form-urlencoded; charset=UTF-8` }
+        };
     } // endLogin
     /**
      *   Loads all shopping lists
@@ -192,7 +195,9 @@ class Bring {
      */
     async getPendingInvitations() {
         try {
-            const data = await (0, request_promise_native_1.default)(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, { headers: this.headers });
+            const data = await (0, request_promise_native_1.default)(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {
+                headers: this.headers
+            });
             return JSON.parse(data);
         }
         catch (e) {
