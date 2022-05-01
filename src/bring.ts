@@ -18,7 +18,7 @@ interface GetItemsResponse {
     uuid: string;
     status: string;
     purchase: GetItemsResponseEntry[];
-    rececently: GetItemsResponseEntry[];
+    recently: GetItemsResponseEntry[];
 }
 
 interface GetAllUsersFromListEntry {
@@ -41,7 +41,7 @@ interface LoadListsEntry {
     theme: string;
 }
 
-interface LoadListsFresponse {
+interface LoadListsResponse {
     lists: LoadListsEntry[];
 }
 
