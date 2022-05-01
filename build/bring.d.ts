@@ -12,7 +12,7 @@ interface GetItemsResponse {
     uuid: string;
     status: string;
     purchase: GetItemsResponseEntry[];
-    rececently: GetItemsResponseEntry[];
+    recently: GetItemsResponseEntry[];
 }
 interface GetAllUsersFromListEntry {
     publicUuid: string;
@@ -32,7 +32,7 @@ interface LoadListsEntry {
     name: string;
     theme: string;
 }
-interface LoadListsFresponse {
+interface LoadListsResponse {
     lists: LoadListsEntry[];
 }
 interface GetItemsDetailsEntry {
@@ -92,7 +92,7 @@ declare class Bring {
     /**
      *   Loads all shopping lists
      */
-    loadLists(): Promise<LoadListsFresponse>;
+    loadLists(): Promise<LoadListsResponse>;
     /**
      *   Get all items from the current selected shopping list
      */

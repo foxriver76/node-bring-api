@@ -18,7 +18,7 @@ interface GetItemsResponse {
     uuid: string;
     status: string;
     purchase: GetItemsResponseEntry[];
-    rececently: GetItemsResponseEntry[];
+    recently: GetItemsResponseEntry[];
 }
 
 interface GetAllUsersFromListEntry {
@@ -41,7 +41,7 @@ interface LoadListsEntry {
     theme: string;
 }
 
-interface LoadListsFresponse {
+interface LoadListsResponse {
     lists: LoadListsEntry[];
 }
 
@@ -164,7 +164,7 @@ class Bring {
     /**
      *   Loads all shopping lists
      */
-    async loadLists(): Promise<LoadListsFresponse> {
+    async loadLists(): Promise<LoadListsResponse> {
         try {
             const data = await request(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
             return JSON.parse(data);

@@ -46,6 +46,9 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+### 1.4.3 (2022-05-01)
+* (foxriver76) fixed typos in types (thanks to @Squawnchy)
+
 ### 1.4.2 (2021-08-12)
 * (foxriver76) restructure to typescript
 
