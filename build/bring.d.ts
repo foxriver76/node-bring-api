@@ -111,6 +111,18 @@ declare class Bring {
      */
     saveItem(listUuid: string, itemName: string, specification: string): Promise<string>;
     /**
+     *   Save an image to an item
+     *
+     *   @param formData The formdata you want to send.
+     *   @param itemUuid The itemUUID you want to update.
+     *   returns an imageUrl and answerHttpStatus should contain 204. If not -> error
+     */
+    saveItemImage(itemUuid: string, formData: {
+        [key: string]: any;
+    } | undefined): Promise<{
+        imageUrl: string;
+    }>;
+    /**
      *   remove an item from your current shopping list
      *
      *   @param itemName Name of the item you want to delete from you shopping list
@@ -118,6 +130,13 @@ declare class Bring {
      *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
     removeItem(listUuid: string, itemName: string): Promise<string>;
+    /**
+     *   Remove the image from your item
+     *
+     *   @param itemUuid The itemUUID you want to remove the image from.
+     *   returns an empty string and answerHttpStatus should contain 204. If not -> error
+     */
+    removeItemImage(itemUuid: string): Promise<string>;
     /**
      *   move an item to recent items list
      *
