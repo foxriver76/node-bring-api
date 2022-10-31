@@ -218,6 +218,25 @@ class Bring {
     } // endSaveItem
 
     /**
+     *   Save an image to an item
+     *
+     *   @param formData The formdata you want to send.
+     *   @param itemUuid The itemUUID you want to update.
+     *   returns an imageUrl and answerHttpStatus should contain 204. If not -> error
+     */
+    async saveItemImage(itemUuid: string, formData: { [key: string]: any } | undefined): Promise<{ imageUrl: string }> {
+        try {
+            const data = await request.put(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+                headers: this.putHeaders,
+                formData: formData
+            });
+            return JSON.parse(data);
+        } catch (e: any) {
+            throw new Error(`Cannot save item image ${itemUuid}: ${e.message}`);
+        } // endCatch
+    } // endSaveItemImage
+
+    /**
      *   remove an item from your current shopping list
      *
      *   @param itemName Name of the item you want to delete from you shopping list
@@ -235,6 +254,20 @@ class Bring {
             throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}`);
         } // endCatch
     } // endRemoveItem
+
+    /**
+     *   Remove the image from your item
+     *
+     *   @param itemUuid The itemUUID you want to remove the image from.
+     *   returns an empty string and answerHttpStatus should contain 204. If not -> error
+     */
+    async removeItemImage(itemUuid: string): Promise<string> {
+        try {
+            return await request.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`);
+        } catch (e: any) {
+            throw new Error(`Cannot remove item image ${itemUuid}: ${e.message}`);
+        } // endCatch
+    } // endRemoveItemImage
 
     /**
      *   move an item to recent items list
