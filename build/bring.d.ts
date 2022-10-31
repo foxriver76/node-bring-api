@@ -74,6 +74,10 @@ interface LoadCatalogResponse {
 interface GetPendingInvitationsResponse {
     invitations: any[];
 }
+interface Image {
+    /** the image itself */
+    imageData: string;
+}
 declare class Bring {
     private readonly mail;
     private readonly password;
@@ -113,27 +117,25 @@ declare class Bring {
     /**
      *   Save an image to an item
      *
-     *   @param formData The formdata you want to send.
-     *   @param itemUuid The itemUUID you want to update.
+     *   @param itemUuid The itemUUID which will be updated
+     *   @param image The image you want to link to the item
      *   returns an imageUrl and answerHttpStatus should contain 204. If not -> error
      */
-    saveItemImage(itemUuid: string, formData: {
-        [key: string]: any;
-    } | undefined): Promise<{
+    saveItemImage(itemUuid: string, image: Image): Promise<{
         imageUrl: string;
     }>;
     /**
      *   remove an item from your current shopping list
      *
+     *   @param listUuid The listUUID you want to remove a item from
      *   @param itemName Name of the item you want to delete from you shopping list
-     *   @param listUuid The lisUUID you want to receive a list of users from.
      *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
     removeItem(listUuid: string, itemName: string): Promise<string>;
     /**
      *   Remove the image from your item
      *
-     *   @param itemUuid The itemUUID you want to remove the image from.
+     *   @param itemUuid The itemUUID you want to remove the image from
      *   returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
     removeItemImage(itemUuid: string): Promise<string>;

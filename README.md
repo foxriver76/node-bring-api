@@ -46,6 +46,10 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+### 1.5.1 (2022-10-31)
+* (foxriver76) updated types
+* (foxriver76) fixed `removeItemImage` as headers were missing
+
 ### 1.5.0 (2022-10-31)
 * (Aliyss) added methods to link an image to an item (PR #221)
 

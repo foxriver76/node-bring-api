@@ -5,7 +5,7 @@ describe(`Wrong login test`, () => {
     let bring;
 
     before(done => {
-        bring = new bringApi({ mail: `example@example.com`, password: `secret` });
+        bring = new bringApi({ mail: 'example@example.com', password: 'secret' });
         done();
     });
 

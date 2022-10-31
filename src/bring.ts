@@ -90,6 +90,11 @@ interface GetPendingInvitationsResponse {
     invitations: any[];
 }
 
+interface Image {
+    /** the image itself */
+    imageData: string;
+}
+
 class Bring {
     private readonly mail: string;
     private readonly password: string;
@@ -218,15 +223,15 @@ class Bring {
     /**
      *   Save an image to an item
      *
-     *   @param formData The formdata you want to send.
-     *   @param itemUuid The itemUUID you want to update.
+     *   @param itemUuid The itemUUID which will be updated
+     *   @param image The image you want to link to the item
      *   returns an imageUrl and answerHttpStatus should contain 204. If not -> error
      */
-    async saveItemImage(itemUuid: string, formData: { [key: string]: any } | undefined): Promise<{ imageUrl: string }> {
+    async saveItemImage(itemUuid: string, image: Image): Promise<{ imageUrl: string }> {
         try {
             const data = await request.put(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
                 headers: this.putHeaders,
-                formData: formData
+                formData: image
             });
             return JSON.parse(data);
         } catch (e: any) {
@@ -237,8 +242,8 @@ class Bring {
     /**
      *   remove an item from your current shopping list
      *
+     *   @param listUuid The listUUID you want to remove a item from
      *   @param itemName Name of the item you want to delete from you shopping list
-     *   @param listUuid The lisUUID you want to receive a list of users from.
      *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
     async removeItem(listUuid: string, itemName: string): Promise<string> {
@@ -256,12 +261,14 @@ class Bring {
     /**
      *   Remove the image from your item
      *
-     *   @param itemUuid The itemUUID you want to remove the image from.
+     *   @param itemUuid The itemUUID you want to remove the image from
      *   returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
     async removeItemImage(itemUuid: string): Promise<string> {
         try {
-            const data = await request.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`);
+            const data = await request.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+                headers: this.headers
+            });
             return data;
         } catch (e: any) {
             throw new Error(`Cannot remove item image ${itemUuid}: ${e.message}`);

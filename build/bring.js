@@ -103,15 +103,15 @@ class Bring {
     /**
      *   Save an image to an item
      *
-     *   @param formData The formdata you want to send.
-     *   @param itemUuid The itemUUID you want to update.
+     *   @param itemUuid The itemUUID which will be updated
+     *   @param image The image you want to link to the item
      *   returns an imageUrl and answerHttpStatus should contain 204. If not -> error
      */
-    async saveItemImage(itemUuid, formData) {
+    async saveItemImage(itemUuid, image) {
         try {
             const data = await request_promise_native_1.default.put(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
                 headers: this.putHeaders,
-                formData: formData
+                formData: image
             });
             return JSON.parse(data);
         }
@@ -122,8 +122,8 @@ class Bring {
     /**
      *   remove an item from your current shopping list
      *
+     *   @param listUuid The listUUID you want to remove a item from
      *   @param itemName Name of the item you want to delete from you shopping list
-     *   @param listUuid The lisUUID you want to receive a list of users from.
      *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
     async removeItem(listUuid, itemName) {
@@ -141,12 +141,14 @@ class Bring {
     /**
      *   Remove the image from your item
      *
-     *   @param itemUuid The itemUUID you want to remove the image from.
+     *   @param itemUuid The itemUUID you want to remove the image from
      *   returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
     async removeItemImage(itemUuid) {
         try {
-            const data = await request_promise_native_1.default.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`);
+            const data = await request_promise_native_1.default.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+                headers: this.headers
+            });
             return data;
         }
         catch (e) {
