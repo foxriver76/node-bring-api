@@ -46,6 +46,9 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+### 1.5.0 (2022-10-31)
+* (Aliyss) added methods to link an image to an item (PR #221)
+
 ### 1.4.3 (2022-05-01)
 * (foxriver76) fixed typos in types (thanks to @Squawnchy)
 
@@ -56,7 +59,7 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 * (foxriver76) fixed issue where error was used instead of the mssage on `getPendingInvitations`
 
 ### 1.3.0 (2020-10-05)
-* (mdhom) added getItemsDetails method
+* (mdhom) added `getItemsDetails` method
 * (foxriver76) now reject with real errors instead of strings
 
 ### 1.2.3 (2019-09-22)

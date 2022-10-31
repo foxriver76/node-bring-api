@@ -1,5 +1,3 @@
-'use strict';
-
 import request from 'request-promise-native';
 
 interface BringOptions {
@@ -129,7 +127,7 @@ class Bring {
             'X-BRING-CLIENT-SOURCE': `webApp`,
             'X-BRING-COUNTRY': `DE`
         };
-    } // endConstructor
+    }
 
     /**
      * Try to log into given account
@@ -145,7 +143,7 @@ class Bring {
             });
         } catch (e: any) {
             throw new Error(`Cannot Login: ${e.message}`);
-        } // endCatch
+        }
 
         data = JSON.parse(data);
         this.name = data.name;
@@ -159,7 +157,7 @@ class Bring {
             ...this.headers,
             ...{ 'Content-Type': `application/x-www-form-urlencoded; charset=UTF-8` }
         };
-    } // endLogin
+    }
 
     /**
      *   Loads all shopping lists
@@ -170,8 +168,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get lists: ${e.message}`);
-        } // endCatch
-    } // endLoadLists
+        }
+    }
 
     /**
      *   Get all items from the current selected shopping list
@@ -182,8 +180,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get items for list ${listUuid}: ${e.message}`);
-        } // endCatch
-    } // endGetItems
+        }
+    }
 
     /**
      *   Get detailed information about all items from the current selected shopping list
@@ -194,8 +192,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get detailed items for list ${listUuid}: ${e.message}`);
-        } // endCatch
-    } // endGetItemsDetails
+        }
+    }
 
     /**
      *   Save an item to your current shopping list
@@ -214,8 +212,8 @@ class Bring {
             return data;
         } catch (e: any) {
             throw new Error(`Cannot save item ${itemName} (${specification}) to ${listUuid}: ${e.message}`);
-        } // endCatch
-    } // endSaveItem
+        }
+    }
 
     /**
      *   Save an image to an item
@@ -233,8 +231,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot save item image ${itemUuid}: ${e.message}`);
-        } // endCatch
-    } // endSaveItemImage
+        }
+    }
 
     /**
      *   remove an item from your current shopping list
@@ -252,8 +250,8 @@ class Bring {
             return data;
         } catch (e: any) {
             throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}`);
-        } // endCatch
-    } // endRemoveItem
+        }
+    }
 
     /**
      *   Remove the image from your item
@@ -263,11 +261,12 @@ class Bring {
      */
     async removeItemImage(itemUuid: string): Promise<string> {
         try {
-            return await request.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`);
+            const data = await request.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`);
+            return data;
         } catch (e: any) {
             throw new Error(`Cannot remove item image ${itemUuid}: ${e.message}`);
-        } // endCatch
-    } // endRemoveItemImage
+        }
+    }
 
     /**
      *   move an item to recent items list
@@ -285,8 +284,8 @@ class Bring {
             return data;
         } catch (e: any) {
             throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}`);
-        } // endCatch
-    } // endRemoveItem
+        }
+    }
 
     /**
      *   Get all users from a shopping list
@@ -299,8 +298,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get users from list: ${e.message}`);
-        } // endCatch
-    } // endGetAllUsersFromList
+        }
+    }
 
     /**
      * Get the user settings
@@ -311,8 +310,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get user settings: ${e.message}`);
-        } // endCatch
-    } // endGetUserSettings
+        }
+    }
 
     /**
      *   Load translation file e. g. via 'de-DE'
@@ -324,8 +323,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get translations: ${e.message}`);
-        } // endCatch
-    } // endLoadTranslations
+        }
+    }
 
     /**
      *   Load translation file e. g. via 'de-DE'
@@ -337,8 +336,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get catalog: ${e.message}`);
-        } // endCatch
-    } // endLoadCatalog
+        }
+    }
 
     /**
      *   Get pending invitations
@@ -351,8 +350,8 @@ class Bring {
             return JSON.parse(data);
         } catch (e: any) {
             throw new Error(`Cannot get pending invitations: ${e.message}`);
-        } // endCatch
-    } // endGetPendingInvitations
+        }
+    }
 }
 
 export = Bring;
