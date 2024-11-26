@@ -1,6 +1,6 @@
 {
   "name": "bring-shopping",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -22,12 +22,10 @@
     "shopping-list"
   ],
   "dependencies": {
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9"
+    "axios": "^1.7.8"
   },
   "devDependencies": {
     "@types/node": "^18.11.8",
-    "@types/request-promise-native": "^1.0.18",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
     "chai": "^4.3.6",

@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const request_promise_native_1 = __importDefault(require("request-promise-native"));
+const axios_1 = __importDefault(require("axios"));
 class Bring {
     constructor(options) {
         this.mail = options.mail;
@@ -20,23 +20,24 @@ class Bring {
      * Try to log into given account
      */
     async login() {
-        let data;
+        let resp = { data: { name: "", uuid: "", access_token: "", refresh_token: "" }, status: {} };
         try {
-            data = await request_promise_native_1.default.post(`${this.url}bringauth`, {
-                form: {
-                    email: this.mail,
-                    password: this.password
+            resp = await axios_1.default.post(`${this.url}bringauth`, {
+                email: this.mail,
+                password: this.password
+            }, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
         }
         catch (e) {
-            throw new Error(`Cannot Login: ${e.message}`);
+            throw new Error(`Cannot Login: ${e.message}\n\n${e.response.statusText}`);
         }
-        data = JSON.parse(data);
-        this.name = data.name;
-        this.uuid = data.uuid;
-        this.bearerToken = data.access_token;
-        this.refreshToken = data.refresh_token;
+        this.name = resp.data.name;
+        this.uuid = resp.data.uuid;
+        this.bearerToken = resp.data.access_token;
+        this.refreshToken = resp.data.refresh_token;
         this.headers[`X-BRING-USER-UUID`] = this.uuid;
         this.headers[`Authorization`] = `Bearer ${this.bearerToken}`;
         this.putHeaders = {
@@ -49,8 +50,8 @@ class Bring {
      */
     async loadLists() {
         try {
-            const data = await (0, request_promise_native_1.default)(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
-            return JSON.parse(data);
+            const { data, status } = await (0, axios_1.default)(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
+            return data;
         }
         catch (e) {
             throw new Error(`Cannot get lists: ${e.message}`);
@@ -61,8 +62,8 @@ class Bring {
      */
     async getItems(listUuid) {
         try {
-            const data = await (0, request_promise_native_1.default)(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
-            return JSON.parse(data);
+            const { data, status } = await (0, axios_1.default)(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
+            return data;
         }
         catch (e) {
             throw new Error(`Cannot get items for list ${listUuid}: ${e.message}`);
@@ -73,8 +74,8 @@ class Bring {
      */
     async getItemsDetails(listUuid) {
         try {
-            const data = await (0, request_promise_native_1.default)(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
-            return JSON.parse(data);
+            const { data, status } = await (0, axios_1.default)(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
+            return data;
         }
         catch (e) {
             throw new Error(`Cannot get detailed items for list ${listUuid}: ${e.message}`);
@@ -90,14 +91,13 @@ class Bring {
      */
     async saveItem(listUuid, itemName, specification) {
         try {
-            const data = await request_promise_native_1.default.put(`${this.url}bringlists/${listUuid}`, {
-                headers: this.putHeaders,
-                body: `&purchase=${itemName}&recently=&specification=${specification}&remove=&sender=null`
+            const { data, status } = await axios_1.default.put(`${this.url}bringlists/${listUuid}`, `&purchase=${itemName}&recently=&specification=${specification}&remove=&sender=null`, {
+                headers: this.putHeaders
             });
             return data;
         }
         catch (e) {
-            throw new Error(`Cannot save item ${itemName} (${specification}) to ${listUuid}: ${e.message}`);
+            throw new Error(`Cannot save item ${itemName} (${specification}) to ${listUuid}: ${e.message}\n\n${e.response}`);
         }
     }
     /**
@@ -109,14 +109,14 @@ class Bring {
      */
     async saveItemImage(itemUuid, image) {
         try {
-            const data = await request_promise_native_1.default.put(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+            const { data, status } = await axios_1.default.put(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
                 headers: this.putHeaders,
                 formData: image
             });
-            return JSON.parse(data);
+            return data;
         }
         catch (e) {
-            throw new Error(`Cannot save item image ${itemUuid}: ${e.message}`);
+            throw new Error(`Cannot save item image ${itemUuid}: ${e.message}\n\n${e.response}`);
         }
     }
     /**
@@ -128,14 +128,13 @@ class Bring {
      */
     async removeItem(listUuid, itemName) {
         try {
-            const data = await request_promise_native_1.default.put(`${this.url}bringlists/${listUuid}`, {
-                headers: this.putHeaders,
-                body: `&purchase=&recently=&specification=&remove=${itemName}&sender=null`
+            const { data, status } = await axios_1.default.put(`${this.url}bringlists/${listUuid}`, `&purchase=&recently=&specification=&remove=${itemName}&sender=null`, {
+                headers: this.putHeaders
             });
             return data;
         }
         catch (e) {
-            throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}`);
+            throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}\n\n${e.response}`);
         }
     }
     /**
@@ -146,7 +145,7 @@ class Bring {
      */
     async removeItemImage(itemUuid) {
         try {
-            const data = await request_promise_native_1.default.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+            const { data, status } = await axios_1.default.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
                 headers: this.headers
             });
             return data;
@@ -164,14 +163,13 @@ class Bring {
      */
     async moveToRecentList(listUuid, itemName) {
         try {
-            const data = await request_promise_native_1.default.put(`${this.url}bringlists/${listUuid}`, {
-                headers: this.putHeaders,
-                body: `&purchase=&recently=${itemName}&specification=&remove=&&sender=null`
+            const { data, status } = await axios_1.default.put(`${this.url}bringlists/${listUuid}`, `&purchase=&recently=${itemName}&specification=&remove=&&sender=null`, {
+                headers: this.putHeaders
             });
             return data;
         }
         catch (e) {
-            throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}`);
+            throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}\n\n${e.response}`);
         }
     }
     /**
@@ -181,8 +179,8 @@ class Bring {
      */
     async getAllUsersFromList(listUuid) {
         try {
-            const data = await (0, request_promise_native_1.default)(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
-            return JSON.parse(data);
+            const { data, status } = await (0, axios_1.default)(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
+            return data;
         }
         catch (e) {
             throw new Error(`Cannot get users from list: ${e.message}`);
@@ -193,8 +191,8 @@ class Bring {
      */
     async getUserSettings() {
         try {
-            const data = await (0, request_promise_native_1.default)(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
-            return JSON.parse(data);
+            const { data, status } = await (0, axios_1.default)(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
+            return data;
         }
         catch (e) {
             throw new Error(`Cannot get user settings: ${e.message}`);
@@ -206,8 +204,8 @@ class Bring {
      */
     async loadTranslations(locale) {
         try {
-            const data = await (0, request_promise_native_1.default)(`https://web.getbring.com/locale/articles.${locale}.json`);
-            return JSON.parse(data);
+            const { data, status } = await (0, axios_1.default)(`https://web.getbring.com/locale/articles.${locale}.json`);
+            return data;
         }
         catch (e) {
             throw new Error(`Cannot get translations: ${e.message}`);
@@ -219,8 +217,8 @@ class Bring {
      */
     async loadCatalog(locale) {
         try {
-            const data = await (0, request_promise_native_1.default)(`https://web.getbring.com/locale/catalog.${locale}.json`);
-            return JSON.parse(data);
+            const { data, status } = await (0, axios_1.default)(`https://web.getbring.com/locale/catalog.${locale}.json`);
+            return data;
         }
         catch (e) {
             throw new Error(`Cannot get catalog: ${e.message}`);
@@ -231,10 +229,10 @@ class Bring {
      */
     async getPendingInvitations() {
         try {
-            const data = await (0, request_promise_native_1.default)(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {
+            const { data, status } = await (0, axios_1.default)(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {
                 headers: this.headers
             });
-            return JSON.parse(data);
+            return data;
         }
         catch (e) {
             throw new Error(`Cannot get pending invitations: ${e.message}`);
