@@ -13,7 +13,7 @@ describe(`Wrong login test`, () => {
         try {
             await bring.login();
         } catch (e) {
-            if (!e.message.includes(`email password combination not existing`)) {
+            if (!e.message.includes(`Request failed with status code 401`)) {
                 throw new Error(`Wrong rejection message on login: ${e.message}`);
             }
         }
