@@ -3,7 +3,7 @@
 [![Downloads](https://img.shields.io/npm/dm/bring-shopping.svg)](https://www.npmjs.com/package/bring-shopping)
 ![Build Status](https://github.com/foxriver76/node-bring-api/workflows/Test%20and%20Release/badge.svg)
 
-A node module for Bring! shopping lists entirely written in TypeScript.
+A __zero dependency__ node module for Bring! shopping lists __entirely written in TypeScript__.
 
 ## Disclaimer
 The developers of this module are in no way endorsed by or affiliated with
@@ -46,6 +46,9 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
+### 2.0.0 (2024-11-27)
+* (@foxriver76) ported to native `fetch` module (BREAKING: Requires Node.js 18 or above)
+
 ### 1.5.1 (2022-10-31)
 * (foxriver76) updated types
 * (foxriver76) fixed `removeItemImage` as headers were missing

@@ -1,5 +1,3 @@
-import request from 'request-promise-native';
-
 interface BringOptions {
     mail: string;
     password: string;
@@ -18,6 +16,22 @@ interface GetItemsResponse {
     purchase: GetItemsResponseEntry[];
     recently: GetItemsResponseEntry[];
 }
+
+interface AuthSuccessResponse {
+    name: string;
+    uuid: string;
+    access_token: string;
+    refresh_token: string;
+}
+
+interface AuthErrorResponse {
+    message: string;
+    error: string;
+    error_description: string;
+    errorcode: number;
+}
+
+type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
 
 interface GetAllUsersFromListEntry {
     publicUuid: string;
@@ -138,19 +152,23 @@ class Bring {
      * Try to log into given account
      */
     async login(): Promise<void> {
-        let data;
+        let data: AuthResponse;
+
         try {
-            data = await request.post(`${this.url}bringauth`, {
-                form: {
-                    email: this.mail,
-                    password: this.password
-                }
+            const resp = await fetch(`${this.url}bringauth`, {
+                method: 'POST',
+                body: new URLSearchParams({ email: this.mail, password: this.password })
             });
+
+            data = await resp.json();
         } catch (e: any) {
             throw new Error(`Cannot Login: ${e.message}`);
         }
 
-        data = JSON.parse(data);
+        if ('error' in data) {
+            throw new Error(`Cannot Login: ${data.message}`);
+        }
+
         this.name = data.name;
         this.uuid = data.uuid;
         this.bearerToken = data.access_token;
@@ -169,8 +187,8 @@ class Bring {
      */
     async loadLists(): Promise<LoadListsResponse> {
         try {
-            const data = await request(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
-            return JSON.parse(data);
+            const resp = await fetch(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot get lists: ${e.message}`);
         }
@@ -181,8 +199,8 @@ class Bring {
      */
     async getItems(listUuid: string): Promise<GetItemsResponse> {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
-            return JSON.parse(data);
+            const resp = await fetch(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot get items for list ${listUuid}: ${e.message}`);
         }
@@ -193,8 +211,8 @@ class Bring {
      */
     async getItemsDetails(listUuid: string): Promise<GetItemsDetailsEntry[]> {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
-            return JSON.parse(data);
+            const resp = await fetch(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot get detailed items for list ${listUuid}: ${e.message}`);
         }
@@ -210,11 +228,12 @@ class Bring {
      */
     async saveItem(listUuid: string, itemName: string, specification: string): Promise<string> {
         try {
-            const data = await request.put(`${this.url}bringlists/${listUuid}`, {
+            const resp = await fetch(`${this.url}bringlists/${listUuid}`, {
+                method: 'PUT',
                 headers: this.putHeaders,
                 body: `&purchase=${itemName}&recently=&specification=${specification}&remove=&sender=null`
             });
-            return data;
+            return resp.text();
         } catch (e: any) {
             throw new Error(`Cannot save item ${itemName} (${specification}) to ${listUuid}: ${e.message}`);
         }
@@ -225,15 +244,16 @@ class Bring {
      *
      *   @param itemUuid The itemUUID which will be updated
      *   @param image The image you want to link to the item
-     *   returns an imageUrl and answerHttpStatus should contain 204. If not -> error
+     *   @return returns an imageUrl and answerHttpStatus should contain 204. If not -> error
      */
     async saveItemImage(itemUuid: string, image: Image): Promise<{ imageUrl: string }> {
         try {
-            const data = await request.put(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+            const resp = await fetch(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+                method: 'PUT',
                 headers: this.putHeaders,
-                formData: image
+                body: new URLSearchParams({ ...image })
             });
-            return JSON.parse(data);
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot save item image ${itemUuid}: ${e.message}`);
         }
@@ -244,15 +264,16 @@ class Bring {
      *
      *   @param listUuid The listUUID you want to remove a item from
      *   @param itemName Name of the item you want to delete from you shopping list
-     *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
+     *   @return should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
     async removeItem(listUuid: string, itemName: string): Promise<string> {
         try {
-            const data = await request.put(`${this.url}bringlists/${listUuid}`, {
+            const resp = await fetch(`${this.url}bringlists/${listUuid}`, {
+                method: 'PUT',
                 headers: this.putHeaders,
                 body: `&purchase=&recently=&specification=&remove=${itemName}&sender=null`
             });
-            return data;
+            return resp.text();
         } catch (e: any) {
             throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}`);
         }
@@ -262,33 +283,35 @@ class Bring {
      *   Remove the image from your item
      *
      *   @param itemUuid The itemUUID you want to remove the image from
-     *   returns an empty string and answerHttpStatus should contain 204. If not -> error
+     *   @return returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
     async removeItemImage(itemUuid: string): Promise<string> {
         try {
-            const data = await request.delete(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+            const resp = await fetch(`${this.url}bringlistitemdetails/${itemUuid}/image`, {
+                method: 'DELETE',
                 headers: this.headers
             });
-            return data;
+            return resp.text();
         } catch (e: any) {
             throw new Error(`Cannot remove item image ${itemUuid}: ${e.message}`);
         }
     }
 
     /**
-     *   move an item to recent items list
+     *   Move an item to recent items list
      *
      *   @param itemName Name of the item you want to delete from you shopping list
      *   @param listUuid The lisUUID you want to receive a list of users from.
-     *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
+     *   @return Should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
     async moveToRecentList(listUuid: string, itemName: string): Promise<string> {
         try {
-            const data = await request.put(`${this.url}bringlists/${listUuid}`, {
+            const resp = await fetch(`${this.url}bringlists/${listUuid}`, {
+                method: 'PUT',
                 headers: this.putHeaders,
                 body: `&purchase=&recently=${itemName}&specification=&remove=&&sender=null`
             });
-            return data;
+            return resp.text();
         } catch (e: any) {
             throw new Error(`Cannot remove item ${itemName} from ${listUuid}: ${e.message}`);
         }
@@ -301,8 +324,8 @@ class Bring {
      */
     async getAllUsersFromList(listUuid: string): Promise<GetAllUsersFromListResponse> {
         try {
-            const data = await request(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
-            return JSON.parse(data);
+            const resp = await fetch(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot get users from list: ${e.message}`);
         }
@@ -313,8 +336,8 @@ class Bring {
      */
     async getUserSettings(): Promise<GetUserSettingsResponse> {
         try {
-            const data = await request(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
-            return JSON.parse(data);
+            const resp = await fetch(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot get user settings: ${e.message}`);
         }
@@ -326,21 +349,21 @@ class Bring {
      */
     async loadTranslations(locale: string): Promise<Record<string, string>> {
         try {
-            const data = await request(`https://web.getbring.com/locale/articles.${locale}.json`);
-            return JSON.parse(data);
+            const resp = await fetch(`https://web.getbring.com/locale/articles.${locale}.json`);
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot get translations: ${e.message}`);
         }
     }
 
     /**
-     *   Load translation file e. g. via 'de-DE'
+     *   Load translation file e.g. via 'de-DE'
      *   @param locale from which country translations will be loaded
      */
     async loadCatalog(locale: string): Promise<LoadCatalogResponse> {
         try {
-            const data = await request(`https://web.getbring.com/locale/catalog.${locale}.json`);
-            return JSON.parse(data);
+            const resp = await fetch(`https://web.getbring.com/locale/catalog.${locale}.json`);
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot get catalog: ${e.message}`);
         }
@@ -351,10 +374,10 @@ class Bring {
      */
     async getPendingInvitations(): Promise<GetPendingInvitationsResponse> {
         try {
-            const data = await request(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {
+            const resp = await fetch(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {
                 headers: this.headers
             });
-            return JSON.parse(data);
+            return resp.json();
         } catch (e: any) {
             throw new Error(`Cannot get pending invitations: ${e.message}`);
         }
