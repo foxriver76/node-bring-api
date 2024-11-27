@@ -46,8 +46,8 @@ More important methods are `getItems(listUUID)`, `getItemsDetails(listUUID)`, `s
 `moveToRecentList(listUuid, itemName)` and `getAllUsersFromList(listUuid)`.
 
 ## Changelog
-### 2.0.-0 (2024-11-27)
-* (@foxriver76) ported to native `fetch` module (BREAKING: Requires Node.js 20 or above)
+### 2.0.0 (2024-11-27)
+* (@foxriver76) ported to native `fetch` module (BREAKING: Requires Node.js 18 or above)
 
 ### 1.5.1 (2022-10-31)
 * (foxriver76) updated types
