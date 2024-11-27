@@ -119,7 +119,7 @@ declare class Bring {
      *
      *   @param itemUuid The itemUUID which will be updated
      *   @param image The image you want to link to the item
-     *   returns an imageUrl and answerHttpStatus should contain 204. If not -> error
+     *   @return returns an imageUrl and answerHttpStatus should contain 204. If not -> error
      */
     saveItemImage(itemUuid: string, image: Image): Promise<{
         imageUrl: string;
@@ -129,22 +129,22 @@ declare class Bring {
      *
      *   @param listUuid The listUUID you want to remove a item from
      *   @param itemName Name of the item you want to delete from you shopping list
-     *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
+     *   @return should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
     removeItem(listUuid: string, itemName: string): Promise<string>;
     /**
      *   Remove the image from your item
      *
      *   @param itemUuid The itemUUID you want to remove the image from
-     *   returns an empty string and answerHttpStatus should contain 204. If not -> error
+     *   @return returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
     removeItemImage(itemUuid: string): Promise<string>;
     /**
-     *   move an item to recent items list
+     *   Move an item to recent items list
      *
      *   @param itemName Name of the item you want to delete from you shopping list
      *   @param listUuid The lisUUID you want to receive a list of users from.
-     *   should return an empty string and $answerHttpStatus should contain 204. If not -> error
+     *   @return Should return an empty string and $answerHttpStatus should contain 204. If not -> error
      */
     moveToRecentList(listUuid: string, itemName: string): Promise<string>;
     /**
@@ -163,7 +163,7 @@ declare class Bring {
      */
     loadTranslations(locale: string): Promise<Record<string, string>>;
     /**
-     *   Load translation file e. g. via 'de-DE'
+     *   Load translation file e.g. via 'de-DE'
      *   @param locale from which country translations will be loaded
      */
     loadCatalog(locale: string): Promise<LoadCatalogResponse>;
