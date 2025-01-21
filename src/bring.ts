@@ -24,14 +24,14 @@ interface AuthSuccessResponse {
     refresh_token: string;
 }
 
-interface AuthErrorResponse {
+interface ErrorResponse {
     message: string;
     error: string;
     error_description: string;
     errorcode: number;
 }
 
-type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
+type AuthResponse = AuthSuccessResponse | ErrorResponse;
 
 interface GetAllUsersFromListEntry {
     publicUuid: string;
@@ -188,7 +188,13 @@ class Bring {
     async loadLists(): Promise<LoadListsResponse> {
         try {
             const resp = await fetch(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
-            return resp.json();
+            const lists: LoadListsResponse | ErrorResponse = await resp.json();
+
+            if ('error' in lists) {
+                throw new Error(lists.message);
+            }
+
+            return lists;
         } catch (e: any) {
             throw new Error(`Cannot get lists: ${e.message}`);
         }
@@ -200,7 +206,13 @@ class Bring {
     async getItems(listUuid: string): Promise<GetItemsResponse> {
         try {
             const resp = await fetch(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
-            return resp.json();
+            const items: GetItemsResponse | ErrorResponse = await resp.json();
+
+            if ('error' in items) {
+                throw new Error(items.message);
+            }
+
+            return items;
         } catch (e: any) {
             throw new Error(`Cannot get items for list ${listUuid}: ${e.message}`);
         }
@@ -212,7 +224,13 @@ class Bring {
     async getItemsDetails(listUuid: string): Promise<GetItemsDetailsEntry[]> {
         try {
             const resp = await fetch(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
-            return resp.json();
+            const items: GetItemsDetailsEntry[] | ErrorResponse = await resp.json();
+
+            if ('error' in items) {
+                throw new Error(items.message);
+            }
+
+            return items;
         } catch (e: any) {
             throw new Error(`Cannot get detailed items for list ${listUuid}: ${e.message}`);
         }
@@ -222,7 +240,7 @@ class Bring {
      *   Save an item to your current shopping list
      *
      *   @param itemName The name of the item you want to send to the bring server
-     *   @param specification The litte description under the name of the item
+     *   @param specification The little description under the name of the item
      *   @param listUuid The listUUID you want to receive a list of users from.
      *   returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
@@ -253,7 +271,13 @@ class Bring {
                 headers: this.putHeaders,
                 body: new URLSearchParams({ ...image })
             });
-            return resp.json();
+            const imageObj: { imageUrl: string } | ErrorResponse = await resp.json();
+
+            if ('error' in imageObj) {
+                throw new Error(imageObj.message);
+            }
+
+            return imageObj;
         } catch (e: any) {
             throw new Error(`Cannot save item image ${itemUuid}: ${e.message}`);
         }
@@ -325,7 +349,13 @@ class Bring {
     async getAllUsersFromList(listUuid: string): Promise<GetAllUsersFromListResponse> {
         try {
             const resp = await fetch(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
-            return resp.json();
+            const users: GetAllUsersFromListResponse | ErrorResponse = await resp.json();
+
+            if ('error' in users) {
+                throw new Error(users.message);
+            }
+
+            return users;
         } catch (e: any) {
             throw new Error(`Cannot get users from list: ${e.message}`);
         }
@@ -337,7 +367,13 @@ class Bring {
     async getUserSettings(): Promise<GetUserSettingsResponse> {
         try {
             const resp = await fetch(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
-            return resp.json();
+            const settings: GetUserSettingsResponse | ErrorResponse = await resp.json();
+
+            if ('error' in settings) {
+                throw new Error(settings.message);
+            }
+
+            return settings;
         } catch (e: any) {
             throw new Error(`Cannot get user settings: ${e.message}`);
         }
@@ -350,7 +386,13 @@ class Bring {
     async loadTranslations(locale: string): Promise<Record<string, string>> {
         try {
             const resp = await fetch(`https://web.getbring.com/locale/articles.${locale}.json`);
-            return resp.json();
+            const translations: Record<string, string> | ErrorResponse = await resp.json();
+
+            if ('error' in translations) {
+                throw new Error(translations.message);
+            }
+
+            return translations;
         } catch (e: any) {
             throw new Error(`Cannot get translations: ${e.message}`);
         }
@@ -363,7 +405,13 @@ class Bring {
     async loadCatalog(locale: string): Promise<LoadCatalogResponse> {
         try {
             const resp = await fetch(`https://web.getbring.com/locale/catalog.${locale}.json`);
-            return resp.json();
+            const catalog: LoadCatalogResponse | ErrorResponse = await resp.json();
+
+            if ('error' in catalog) {
+                throw new Error(catalog.message);
+            }
+
+            return catalog;
         } catch (e: any) {
             throw new Error(`Cannot get catalog: ${e.message}`);
         }
@@ -377,7 +425,13 @@ class Bring {
             const resp = await fetch(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {
                 headers: this.headers
             });
-            return resp.json();
+            const invites: GetPendingInvitationsResponse | ErrorResponse = await resp.json();
+
+            if ('error' in invites) {
+                throw new Error(invites.message);
+            }
+
+            return invites;
         } catch (e: any) {
             throw new Error(`Cannot get pending invitations: ${e.message}`);
         }

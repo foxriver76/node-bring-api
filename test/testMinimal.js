@@ -18,4 +18,15 @@ describe(`Wrong login test`, () => {
             }
         }
     });
+
+    it(`init should throw invalid JWT error`, async () => {
+        try {
+            const lists = await bring.loadLists();
+            expect(lists).to.be.undefined;
+        } catch (e) {
+            if (!e.message.includes(`JWT access token is not valid`)) {
+                throw new Error(`Wrong rejection message on loading lists: ${e.message}`);
+            }
+        }
+    });
 });

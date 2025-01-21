@@ -47,7 +47,11 @@ class Bring {
     async loadLists() {
         try {
             const resp = await fetch(`${this.url}bringusers/${this.uuid}/lists`, { headers: this.headers });
-            return resp.json();
+            const lists = await resp.json();
+            if ('error' in lists) {
+                throw new Error(lists.message);
+            }
+            return lists;
         }
         catch (e) {
             throw new Error(`Cannot get lists: ${e.message}`);
@@ -59,7 +63,11 @@ class Bring {
     async getItems(listUuid) {
         try {
             const resp = await fetch(`${this.url}bringlists/${listUuid}`, { headers: this.headers });
-            return resp.json();
+            const items = await resp.json();
+            if ('error' in items) {
+                throw new Error(items.message);
+            }
+            return items;
         }
         catch (e) {
             throw new Error(`Cannot get items for list ${listUuid}: ${e.message}`);
@@ -71,7 +79,11 @@ class Bring {
     async getItemsDetails(listUuid) {
         try {
             const resp = await fetch(`${this.url}bringlists/${listUuid}/details`, { headers: this.headers });
-            return resp.json();
+            const items = await resp.json();
+            if ('error' in items) {
+                throw new Error(items.message);
+            }
+            return items;
         }
         catch (e) {
             throw new Error(`Cannot get detailed items for list ${listUuid}: ${e.message}`);
@@ -81,7 +93,7 @@ class Bring {
      *   Save an item to your current shopping list
      *
      *   @param itemName The name of the item you want to send to the bring server
-     *   @param specification The litte description under the name of the item
+     *   @param specification The little description under the name of the item
      *   @param listUuid The listUUID you want to receive a list of users from.
      *   returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
@@ -112,7 +124,11 @@ class Bring {
                 headers: this.putHeaders,
                 body: new URLSearchParams({ ...image })
             });
-            return resp.json();
+            const imageObj = await resp.json();
+            if ('error' in imageObj) {
+                throw new Error(imageObj.message);
+            }
+            return imageObj;
         }
         catch (e) {
             throw new Error(`Cannot save item image ${itemUuid}: ${e.message}`);
@@ -184,7 +200,11 @@ class Bring {
     async getAllUsersFromList(listUuid) {
         try {
             const resp = await fetch(`${this.url}bringlists/${listUuid}/users`, { headers: this.headers });
-            return resp.json();
+            const users = await resp.json();
+            if ('error' in users) {
+                throw new Error(users.message);
+            }
+            return users;
         }
         catch (e) {
             throw new Error(`Cannot get users from list: ${e.message}`);
@@ -196,7 +216,11 @@ class Bring {
     async getUserSettings() {
         try {
             const resp = await fetch(`${this.url}bringusersettings/${this.uuid}`, { headers: this.headers });
-            return resp.json();
+            const settings = await resp.json();
+            if ('error' in settings) {
+                throw new Error(settings.message);
+            }
+            return settings;
         }
         catch (e) {
             throw new Error(`Cannot get user settings: ${e.message}`);
@@ -209,7 +233,11 @@ class Bring {
     async loadTranslations(locale) {
         try {
             const resp = await fetch(`https://web.getbring.com/locale/articles.${locale}.json`);
-            return resp.json();
+            const translations = await resp.json();
+            if ('error' in translations) {
+                throw new Error(translations.message);
+            }
+            return translations;
         }
         catch (e) {
             throw new Error(`Cannot get translations: ${e.message}`);
@@ -222,7 +250,11 @@ class Bring {
     async loadCatalog(locale) {
         try {
             const resp = await fetch(`https://web.getbring.com/locale/catalog.${locale}.json`);
-            return resp.json();
+            const catalog = await resp.json();
+            if ('error' in catalog) {
+                throw new Error(catalog.message);
+            }
+            return catalog;
         }
         catch (e) {
             throw new Error(`Cannot get catalog: ${e.message}`);
@@ -236,7 +268,11 @@ class Bring {
             const resp = await fetch(`${this.url}bringusers/${this.uuid}/invitations?status=pending`, {
                 headers: this.headers
             });
-            return resp.json();
+            const invites = await resp.json();
+            if ('error' in invites) {
+                throw new Error(invites.message);
+            }
+            return invites;
         }
         catch (e) {
             throw new Error(`Cannot get pending invitations: ${e.message}`);

@@ -109,7 +109,7 @@ declare class Bring {
      *   Save an item to your current shopping list
      *
      *   @param itemName The name of the item you want to send to the bring server
-     *   @param specification The litte description under the name of the item
+     *   @param specification The little description under the name of the item
      *   @param listUuid The listUUID you want to receive a list of users from.
      *   returns an empty string and answerHttpStatus should contain 204. If not -> error
      */
